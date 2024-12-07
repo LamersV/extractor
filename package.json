@@ -1,0 +1,38 @@
+{
+  "name": "lamers-extractor",
+  "version": "1.0.1",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "extractor",
+    "zip",
+    "rar"
+  ],
+  "author": "LamersV",
+  "license": "ISC",
+  "description": "A simple node zip and rar extractor",
+  "dependencies": {
+    "extract-zip": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js",
+      "types": "./dist/interface.d.ts"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LamersV/extractor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LamersV/extractor/issues"
+  },
+  "homepage": "https://github.com/LamersV/extractor#readme"
+}
