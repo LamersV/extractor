@@ -26,6 +26,23 @@ export const unzip = async (path: string, destination: string, options?: UnzipOp
         if (!existsSync(fileDestination)) {
           await mkdir(fileDestination, { recursive: true });
         }
+        const exits = existsSync(fileDestination);
+
+        if (!options.overwrite) {
+          if (exits) {
+            if (options?.errorOnExist) {
+              throw new Error(`File already exists: ${fileDestination}`);
+            }
+            else {
+              console.warn(`File already exists: ${fileDestination}`);
+              continue;
+            }
+          }
+        }
+        else {
+          await unlink(fileDestination);
+          await mkdir(fileDestination, { recursive: true });
+        }
 
         await unzip(filePath, fileDestination, options);
       }
