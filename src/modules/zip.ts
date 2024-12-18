@@ -1,4 +1,4 @@
-import { mkdir, readdir, unlink } from 'fs/promises';
+import { mkdir, readdir, unlink, rename, readFile } from 'fs/promises';
 import { UnzipOptions } from '../index';
 import { join, resolve } from 'path';
 import extract from 'extract-zip';
@@ -17,7 +17,24 @@ export const unzip = async (path: string, destination: string, options?: UnzipOp
     if (options?.recursive) {
       const files = await readdir(dir);
 
-      for (const file of files) {
+      for (const ind in files) {
+        let file = files[ind];
+
+        if (options.filenameFormatter) {
+          const filepath = join(dir, file);
+
+          const buffer = await readFile(filepath);
+          const newFileName = options.filenameFormatter(file, buffer);
+
+          if (newFileName && newFileName !== file) {
+            const newPath = join(dir, newFileName);
+
+            await rename(filepath, newPath);
+
+            file = newFileName;
+          }
+        }
+
         if (!file.endsWith('.zip')) continue;
 
         const filePath = join(dir, file);
